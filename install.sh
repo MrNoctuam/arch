@@ -35,7 +35,7 @@ then
 	timedatectl set-ntp true
 
 	mountpoint -q "/mnt"	  && umount -l /mnt
-	# mountpoint -q "/mnt/boot" && umount -l /mnt/boot
+	mountpoint -q "/mnt/boot" && umount -l /mnt/boot
 	mountpoint -q "/mnt/home" && umount -l /mnt/home
 
 	swapon -s &> /dev/null && swapoff --all
@@ -89,6 +89,7 @@ then
 	genfstab -U /mnt >> /mnt/etc/fstab
 
 	cp $BASH_SOURCE /mnt/root
+	chmod -x /root/$(basename $BASH_SOURCE) 
 	arch-chroot /mnt /bin/bash -c "/root/$(basename $BASH_SOURCE) continue"
 
 else
@@ -164,10 +165,10 @@ else
 #
 #	fi
 
-	if [[ ! -z "$ethernet" ]]
-	then
-		systemctl enable dhcpcd@$ethernet.service
-	fi
+	# if [[ ! -z "$ethernet" ]]
+	# then
+	# 	systemctl enable dhcpcd@$ethernet.service
+	# fi
 
 	pacman -Syu --noconfirm xorg xorg-xinit alsa-lib alsa-utils ntfs-3g wget tree neovim
 
