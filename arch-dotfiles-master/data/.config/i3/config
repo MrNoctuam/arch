@@ -1,0 +1,185 @@
+# vim:filetype=i3config
+# i3 config file (v4)
+
+#-----------------------------------------------------------------------
+#                         variables
+#-----------------------------------------------------------------------
+
+set $mod Mod4
+set $terminal termite
+
+#-----------------------------------------------------------------------
+#                         autostart
+#-----------------------------------------------------------------------
+
+exec --no-startup-id setxkbmap -layout us,ru -option 'grp:alt_shift_toggle' 
+exec --no-startup-id compton --config $HOME/.config/compton/config
+exec --no-startup-id dunst -config $HOME/.config/dunst/config
+exec --no-startup-id feh --bg-scale $HOME/.config/themes/wallpapers/flat/03_image.png
+
+exec --no-startup-id $HOME/.config/polybar/launch.sh
+exec --no-startup-id telegram-desktop
+exec --no-startup-id skypeforlinux
+exec --no-startup-id keepassx2
+
+#-----------------------------------------------------------------------
+#                         bindings
+#-----------------------------------------------------------------------
+
+# use mouse+$mod to drag windows
+floating_modifier $mod
+
+# open terminal
+bindsym $mod+Return exec --no-startup-id $terminal
+
+# open rofi
+bindsym $mod+d exec --no-startup-id rofi -show run
+
+# kill focused window
+bindsym $mod+q kill
+
+# reload i3 config
+bindsym $mod+Shift+c reload
+
+# restart i3 inplace
+bindsym $mod+Shift+r restart
+
+# switch layout
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# switch mode
+bindsym $mod+f fullscreen
+bindsym $mod+space floating toggle
+
+# move focus [vimlike]
+bindsym $mod+h focus left
+bindsym $mod+l focus right
+bindsym $mod+k focus up
+bindsym $mod+j focus down
+
+# move focus [arrows]
+bindsym $mod+Left  focus left
+bindsym $mod+Right focus right
+bindsym $mod+Up    focus up
+bindsym $mod+Down  focus down
+
+# move focused window [vimlike]
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+l move right
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+j move down
+
+# move focused window [arrows]
+bindsym $mod+Shift+Left  move left
+bindsym $mod+Shift+Right move right
+bindsym $mod+Shift+Up    move up
+bindsym $mod+Shift+Down  move down
+
+bindsym $mod+r mode "resize"
+mode "resize" {
+
+    # change window's size [vimlike]
+    bindsym h resize shrink width 10 px or 10 ppt
+    bindsym j resize grow height 10 px or 10 ppt
+    bindsym k resize shrink height 10 px or 10 ppt
+    bindsym l resize grow width 10 px or 10 ppt
+
+    # change window's size [arrows]
+    bindsym Left resize shrink width 10 px or 10 ppt
+    bindsym Down resize grow height 10 px or 10 ppt
+    bindsym Up resize shrink height 10 px or 10 ppt
+    bindsym Right resize grow width 10 px or 10 ppt
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+#-----------------------------------------------------------------------
+#                         workspaces
+#-----------------------------------------------------------------------
+
+set $display_01 HDMI-0
+set $display_02 VGA-0
+
+set $workspace_01 "01"
+set $workspace_02 "02"
+set $workspace_03 "03"
+set $workspace_04 "04"
+set $workspace_05 "05"
+set $workspace_06 "06"
+set $workspace_07 "07"
+set $workspace_08 "08"
+
+workspace $workspace_01 output $display_01
+workspace $workspace_02 output $display_01
+workspace $workspace_03 output $display_01
+workspace $workspace_04 output $display_01
+workspace $workspace_05 output $display_02
+workspace $workspace_06 output $display_02
+workspace $workspace_07 output $display_02
+workspace $workspace_08 output $display_02
+
+bindsym $mod+1 workspace $workspace_01
+bindsym $mod+2 workspace $workspace_02
+bindsym $mod+3 workspace $workspace_03
+bindsym $mod+4 workspace $workspace_04
+bindsym $mod+5 workspace $workspace_05
+bindsym $mod+6 workspace $workspace_06
+bindsym $mod+7 workspace $workspace_07
+bindsym $mod+8 workspace $workspace_08
+bindsym $mod+Tab workspace back_and_forth
+
+bindsym $mod+Shift+1 move container to workspace number $workspace_01
+bindsym $mod+Shift+2 move container to workspace number $workspace_02
+bindsym $mod+Shift+3 move container to workspace number $workspace_03
+bindsym $mod+Shift+4 move container to workspace number $workspace_04
+bindsym $mod+Shift+5 move container to workspace number $workspace_05
+bindsym $mod+Shift+6 move container to workspace number $workspace_06
+bindsym $mod+Shift+7 move container to workspace number $workspace_07
+bindsym $mod+Shift+8 move container to workspace number $workspace_08
+
+assign [class="(?i)code"]               $workspace_02
+assign [class="(?i)firefox"]            $workspace_05
+assign [class="(?i)keepassx2"]          $workspace_04
+assign [class="TelegramDesktop"]        $workspace_07
+assign [class="Skype"]                  $workspace_07
+
+
+for_window [window_type="menu"]         floating_enable
+for_window [window_type="dialog"]       floating_enable
+for_window [window_role="pop-up"]       floating_enable
+for_window [window_role="bubble"]       floating_enable
+
+#-----------------------------------------------------------------------
+#                         appearance
+#-----------------------------------------------------------------------
+
+font pango:Noto Sans Mono Semibold 12, Font Awesome 5 Free 12
+
+#                           BORDER      BACKGROUND      TEXT        INDICATOR   CHILD_BORDER
+client.focused              #7a7a7a     #7a7a7a	        #f0f0f0     #7a7a7a     #7a7a7a	
+client.focused_inactive	    #7a7a7a     #7a7a7a         #f0f0f0	    #7a7a7a     #7a7a7a
+client.unfocused            #7a7a7a     #7a7a7a         #f0f0f0	    #7a7a7a     #7a7a7a
+client.urgent               #7a7a7a     #7a7a7a         #f0f0f0	    #7a7a7a     #7a7a7a
+client.placeholder          #7a7a7a     #7a7a7a         #f0f0f0	    #7a7a7a     #7a7a7a
+client.background           #7a7a7a
+
+for_window [class="^.*"] border none
+
+floating_minimum_size -1 x -1
+floating_maximum_size -1 x -1
+
+force_display_urgency_hint 0ms
+focus_on_window_activation urgent
+
+#-----------------------------------------------------------------------
+#                         i3-gaps
+#-----------------------------------------------------------------------
+
+set $default_gaps_outer 5
+set $default_gaps_inner 5
+
+gaps outer $default_gaps_outer
+gaps inner $default_gaps_inner

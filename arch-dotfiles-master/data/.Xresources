@@ -1,0 +1,75 @@
+!-----------------------------------------------------------------------
+!                         xresources colors
+!-----------------------------------------------------------------------
+
+*foreground: #4d4d4c
+*background: #dfddd5 
+
+! black
+*color0:    #ededed
+*color8:    #969694
+
+! red
+*color1:    #d7005f
+*color9:    #d7005f
+
+! green
+*color2:    #718c00
+*color10:   #718c00
+
+! orange
+*color3:    #d75f00
+*color11:   #d75f00
+
+! blue
+*color4:    #4271ae
+*color12:   #4271ae
+
+! magenta
+*color5:    #8959a8
+*color13:   #8959a8
+
+! cyan
+*color6:    #3e999f
+*color14:   #3e999f
+
+! white
+*color7:    #4d4d4c
+*color15:   #4d4d4c
+
+!-----------------------------------------------------------------------
+!                         xft settings
+!-----------------------------------------------------------------------
+
+Xft.dpi:                96
+Xft.autohint:           0
+Xft.antialias:          true
+Xft.rgba:               rgb
+Xft.hinting:            true
+Xft.lcdfilter:          lcddefault
+Xft.hintstyle:          hintsfull
+
+!-----------------------------------------------------------------------
+!                         rofi colors
+!-----------------------------------------------------------------------
+
+rofi.color-enabled: true
+rofi.color-window: #dfddd5, #dfddd5, #dfddd5
+rofi.color-normal: #dfddd5, #4d4d4c, #dfddd5, #dfddd5, #d75f00
+rofi.color-active: #dfddd5, #fec7cd, #dfddd5, #dfddd5, #95c1c0
+rofi.color-urgent: #dfddd5, #f59335, #dfddd5, #dfddd5, #f59335  
+
+!-----------------------------------------------------------------------
+!                         rofi settings
+!-----------------------------------------------------------------------
+
+rofi.separator-style: solid
+rofi.sidebar-mode: false
+rofi.lines: 5
+rofi.font: Noto Sans Mono Semibold 12
+rofi.bw: 1
+rofi.columns: 2
+rofi.padding: 18
+rofi.hide-scrollbar: true
+rofi.fixed-num-lines: true
+
