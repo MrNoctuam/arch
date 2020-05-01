@@ -4,8 +4,8 @@
 set -euo pipefail
 
 
-username="username"
-hostname="desktop"
+username="owl"
+hostname="ironmk3"
 timezone="Europe/Kaliningrad"
 
 
@@ -35,54 +35,54 @@ then
 	timedatectl set-ntp true
 
 	mountpoint -q "/mnt"	  && umount -l /mnt
-	mountpoint -q "/mnt/boot" && umount -l /mnt/boot
+	# mountpoint -q "/mnt/boot" && umount -l /mnt/boot
 	mountpoint -q "/mnt/home" && umount -l /mnt/home
 
 	swapon -s &> /dev/null && swapoff --all
-	dd if=/dev/zero of=/dev/sda bs=512 count=1 status=none
+	# dd if=/dev/zero of=/dev/sda bs=512 count=1 status=none
 
 	# /dev/sda1    /boot    512MiB
 	# /dev/sda2    /root    40GiB
 	# /dev/sda3    /swap    16GiB
 	# /dev/sda4    /home    40GiB
 	
-	if [[ $bootmode == "bios" ]]
-	then
-		parted -s /dev/sda -- mklabel msdos
-		parted -s /dev/sda -- mkpart primary       ext4	    1MiB   513MiB
-		parted -s /dev/sda -- mkpart primary       ext4   513MiB 41473MiB
-		parted -s /dev/sda -- mkpart primary linux-swap 41473MiB 57857MiB
-		parted -s /dev/sda -- mkpart primary       ext4	57857MiB 98817MiB
-		parted -s /dev/sda -- set 1 boot on
+	# if [[ $bootmode == "bios" ]]
+	# then
+	# 	parted -s /dev/sda -- mklabel msdos
+	# 	parted -s /dev/sda -- mkpart primary       ext4	    1MiB   513MiB
+	# 	parted -s /dev/sda -- mkpart primary       ext4   513MiB 41473MiB
+	# 	parted -s /dev/sda -- mkpart primary linux-swap 41473MiB 57857MiB
+	# 	parted -s /dev/sda -- mkpart primary       ext4	57857MiB 98817MiB
+	# 	parted -s /dev/sda -- set 1 boot on
 
-		mkfs.ext4 -F /dev/sda1
-	fi
+	# 	mkfs.ext4 -F /dev/sda1
+	# fi
 
-	if [[ $bootmode == "uefi" ]]
-	then
-		parted -s /dev/sda -- mklabel gpt
-		parted -s /dev/sda -- mkpart     ESP      fat32     1MiB   513MiB
-		parted -s /dev/sda -- mkpart primary       ext4   513MiB 41473MiB
-		parted -s /dev/sda -- mkpart primary linux-swap 41473MiB 57857MiB
-		parted -s /dev/sda -- mkpart primary       ext4 57857MiB 98817MiB
-		parted -s /dev/sda -- set 1 boot on
+	# if [[ $bootmode == "uefi" ]]
+	# then
+	# 	parted -s /dev/sda -- mklabel gpt
+	# 	parted -s /dev/sda -- mkpart     ESP      fat32     1MiB   513MiB
+	# 	parted -s /dev/sda -- mkpart primary       ext4   513MiB 41473MiB
+	# 	parted -s /dev/sda -- mkpart primary linux-swap 41473MiB 57857MiB
+	# 	parted -s /dev/sda -- mkpart primary       ext4 57857MiB 98817MiB
+	# 	parted -s /dev/sda -- set 1 boot on
 
-		parted -s /dev/sda -- name 1 "boot"
-		parted -s /dev/sda -- name 2 "root"
-		parted -s /dev/sda -- name 3 "swap"
-		parted -s /dev/sda -- name 4 "home"
+	# 	parted -s /dev/sda -- name 1 "boot"
+	# 	parted -s /dev/sda -- name 2 "root"
+	# 	parted -s /dev/sda -- name 3 "swap"
+	# 	parted -s /dev/sda -- name 4 "home"
 
-		mkfs.fat -F32 -I /dev/sda1
-	fi
+	# 	mkfs.fat -F32 -I /dev/sda1
+	# fi
 
+	mkfs.ext4 -F /dev/sda1
 	mkfs.ext4 -F /dev/sda2
-	mkfs.ext4 -F /dev/sda4
 
-	mkswap /dev/sda3
-	swapon /dev/sda3
+	# mkswap /dev/sda3
+	# swapon /dev/sda3
 
-	mount /dev/sda2 /mnt
-	mkdir /mnt/boot && mount /dev/sda1 /mnt/boot
+	mount /dev/sda1 /mnt
+	# mkdir /mnt/boot && mount /dev/sda1 /mnt/boot
 	mkdir /mnt/home && mount /dev/sda2 /mnt/home
 
 	pacstrap /mnt base base-devel
